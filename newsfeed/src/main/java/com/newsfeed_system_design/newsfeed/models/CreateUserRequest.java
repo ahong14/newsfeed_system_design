@@ -15,6 +15,8 @@ public class CreateUserRequest {
 
     private String dateOfBirth;
 
+    private String password;
+
     public String getFirstName() {
         return firstName;
     }
@@ -45,5 +47,13 @@ public class CreateUserRequest {
 
     public void setDateOfBirth(String dateOfBirth) {
         this.dateOfBirth = dateOfBirth;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 }

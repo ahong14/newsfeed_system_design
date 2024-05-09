@@ -23,24 +23,26 @@ public class User {
     @Column(nullable = false)
     private String email;
 
+    @Column(nullable = false)
+    private String password;
+
     @Column(name = "date_of_birth")
     private LocalDate dateOfBirth;
 
-    @Column(name = "created_at", nullable = false)
-    private LocalDateTime createdAt;
-
-    public User(UUID id, String firstName, String lastName, String email, LocalDate dateOfBirth, LocalDateTime createdAt) {
+    public User(UUID id, String firstName, String lastName, String email, String password, LocalDate dateOfBirth, LocalDateTime createdAt) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
+        this.password = password;
         this.dateOfBirth = dateOfBirth;
         this.createdAt = createdAt;
     }
 
-    public User() {
+    public User() {}
 
-    }
+    @Column(name = "created_at", nullable = false)
+    private LocalDateTime createdAt;
 
     public UUID getId() {
         return id;
@@ -74,6 +76,14 @@ public class User {
         this.email = email;
     }
 
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
     public LocalDate getDateOfBirth() {
         return dateOfBirth;
     }
@@ -88,17 +98,5 @@ public class User {
 
     public void setCreatedAt(LocalDateTime createdAt) {
         this.createdAt = createdAt;
-    }
-
-    @java.lang.Override
-    public java.lang.String toString() {
-        return "User{" +
-                "id=" + id +
-                ", firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", email='" + email + '\'' +
-                ", dateOfBirth=" + dateOfBirth +
-                ", createdAt=" + createdAt +
-                '}';
     }
 }
