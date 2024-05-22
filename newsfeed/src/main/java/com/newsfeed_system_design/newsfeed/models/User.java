@@ -1,7 +1,11 @@
 package com.newsfeed_system_design.newsfeed.models;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.Past;
+import jakarta.validation.constraints.Size;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -14,18 +18,24 @@ public class User {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
+    @Size(min = 2)
     @Column(name = "first_name")
     private String firstName;
 
+    @Size(min = 2)
     @Column(name = "last_name")
     private String lastName;
 
+    @Email
     @Column(nullable = false)
     private String email;
 
+    // JsonIgnore, ignore serialization at field level, don't return password
+    @JsonIgnore
     @Column(nullable = false)
     private String password;
 
+    @Past
     @Column(name = "date_of_birth")
     private LocalDate dateOfBirth;
 

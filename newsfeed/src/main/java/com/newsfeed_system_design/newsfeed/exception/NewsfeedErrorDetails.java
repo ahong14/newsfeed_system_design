@@ -2,6 +2,7 @@ package com.newsfeed_system_design.newsfeed.exception;
 
 import java.time.LocalDateTime;
 
+// class/object to represent error details
 public class NewsfeedErrorDetails {
     private LocalDateTime errorTimestamp;
     private String errorMessage;

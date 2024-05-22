@@ -8,4 +8,6 @@ public interface UserService {
     User createUser(User newUser);
 
     User getUser(UUID userId);
+
+    Boolean deleteUser(UUID userId);
 }

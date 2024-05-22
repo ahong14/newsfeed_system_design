@@ -3,18 +3,28 @@ package com.newsfeed_system_design.newsfeed.models;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.Past;
+import jakarta.validation.constraints.Size;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
 
 public class CreateUserRequest {
+    @Size(min = 2)
     private String firstName;
+
+    @Size(min = 2)
     private String lastName;
 
+    @Email
     private String email;
 
+    @Past
     private String dateOfBirth;
 
+    @Size(min = 8)
     private String password;
 
     public String getFirstName() {

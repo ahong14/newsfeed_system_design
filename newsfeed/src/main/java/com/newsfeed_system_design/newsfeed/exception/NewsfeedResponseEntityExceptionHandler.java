@@ -12,12 +12,14 @@ import java.util.NoSuchElementException;
 
 @ControllerAdvice
 public class NewsfeedResponseEntityExceptionHandler extends ResponseEntityExceptionHandler {
+    // return 400, illegal arguments
     @ExceptionHandler(IllegalArgumentException.class)
     public final ResponseEntity<Object> handleIllegalArgumentExceptions(Exception ex, WebRequest request) {
         NewsfeedErrorDetails errorDetails = new NewsfeedErrorDetails(LocalDateTime.now(), ex.getMessage());
         return new ResponseEntity<>(errorDetails, HttpStatus.BAD_REQUEST);
     };
 
+    // return 404, elements not found
     @ExceptionHandler(NoSuchElementException.class)
     public final ResponseEntity<Object> handleNoSuchElementExceptions(Exception ex, WebRequest request) {
         NewsfeedErrorDetails errorDetails = new NewsfeedErrorDetails(LocalDateTime.now(), ex.getMessage());
