@@ -31,8 +31,16 @@ public class AuthServiceImpl implements AuthService {
         this.authenticationManager = authenticationManager;
     }
 
+    /**
+     *
+     * @param email - email of user
+     * @param password - password of user
+     * @return - generated JWT token if login credentials correct
+     */
     @Override
     public String loginUser(String email, String password) {
+        // use authentication manager, authenticate method calls provider
+        // if unable to authenticate, throws BadCredentialsException
         this.authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
                 email,
                 password)

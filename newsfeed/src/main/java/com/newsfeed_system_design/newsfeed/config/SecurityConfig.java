@@ -44,7 +44,7 @@ public class SecurityConfig  {
         });
 
         // set authentication provider
-        // setup jwt filter to check for auth token in header
+        // setup jwt filter to check for auth token in header before
         http.authenticationProvider(this.authenticationProvider).addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();

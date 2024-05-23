@@ -31,7 +31,7 @@ public class ApplicationConfig {
     // UserDetails object related to authentication
     // returns UserDetails object
     @Bean
-    UserDetailsService userDetailsService() {
+    public UserDetailsService userDetailsService() {
         return email -> userRepository.findUserByEmail(email).orElseThrow(() -> new UsernameNotFoundException("Email not found"));
     }
 
@@ -40,16 +40,20 @@ public class ApplicationConfig {
     // authentication manager has list of authentication providers
 
     @Bean
-    AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
         return config.getAuthenticationManager();
     }
 
+    // reference: https://www.geeksforgeeks.org/spring-security-authentication-providers/
     // authentication provider, class to implement authentication
+    // DaoAuthenticationProvider - authentication provider used in spring security to authenticate users stored in database
+    // retrieves user credentials from database, compares them to credentials provided by user login
     @Bean
-    AuthenticationProvider authenticationProvider() {
-        DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
-        authProvider.setUserDetailsService(userDetailsService());
-        authProvider.setPasswordEncoder(passwordEncoder());
-        return authProvider;
+    public AuthenticationProvider authenticationProvider() {
+        DaoAuthenticationProvider daoAuthProvider = new DaoAuthenticationProvider();
+        // DaoAuthenticationProvider uses UserDetailsService to retrieve user information from the database during authentication.
+        daoAuthProvider.setUserDetailsService(userDetailsService());
+        daoAuthProvider.setPasswordEncoder(passwordEncoder());
+        return daoAuthProvider;
     }
 }

@@ -4,6 +4,7 @@ import io.jsonwebtoken.MalformedJwtException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -21,6 +22,13 @@ public class NewsfeedResponseEntityExceptionHandler extends ResponseEntityExcept
         NewsfeedErrorDetails errorDetails = new NewsfeedErrorDetails(LocalDateTime.now(), ex.getMessage());
         return new ResponseEntity<>(errorDetails, HttpStatus.BAD_REQUEST);
     };
+
+    @ExceptionHandler(BadCredentialsException.class)
+    public final ResponseEntity<Object> handleBadCredentialsException(Exception ex, WebRequest request) {
+        NewsfeedErrorDetails errorDetails = new NewsfeedErrorDetails(LocalDateTime.now(), ex.getMessage());
+        return new ResponseEntity<>(errorDetails, HttpStatus.UNAUTHORIZED);
+    };
+
 
     @ExceptionHandler(AccessDeniedException.class)
     public final ResponseEntity<Object> handleDeniedAccessException(Exception ex, WebRequest request) {

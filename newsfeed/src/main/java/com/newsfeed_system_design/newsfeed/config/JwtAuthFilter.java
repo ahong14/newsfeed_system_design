@@ -20,6 +20,7 @@ import java.io.IOException;
 
 // reference: https://medium.com/@tericcabrel/implement-jwt-authentication-in-a-spring-boot-3-application-5839e4fd8fac
 // middleware to validate JWT in Authorization header
+// OncePerRequestFilter - executes per request
 @Component
 public class JwtAuthFilter extends OncePerRequestFilter {
     private final HandlerExceptionResolver handlerExceptionResolver;
@@ -48,23 +49,26 @@ public class JwtAuthFilter extends OncePerRequestFilter {
             final String jwt = authHeader.split(" ")[1];
             final String email = jwtService.extractEmail(jwt);
 
+            // get current authentication info from security context
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
-            // if valid email found and not authenticated
+            // if email found and not authenticated
             if (email != null && authentication == null) {
                 // load user details for email extracted from token
                 UserDetails userDetails = this.userDetailsService.loadUserByUsername(email);
 
                 // check if jwt token is valid, not expired and user details matches email
                 if (jwtService.isTokenValid(jwt, userDetails)) {
+                    // create Authentication in spring security context
                     UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
                             userDetails,
                             null,
                             userDetails.getAuthorities()
                     );
 
+                    // build details object from HttpServletRequest
                     authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-                    //  update security context, set authentication
+                    // update security context, set authentication
                     SecurityContextHolder.getContext().setAuthentication(authToken);
                 }
             }
