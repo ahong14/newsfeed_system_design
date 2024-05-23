@@ -11,4 +11,8 @@ public interface PostService {
     Post getUserPost(UUID userId, UUID postId);
 
     Post getPostsForUser(UUID userId);
+
+    void deleteUserPost(UUID userId, UUID postId);
+
+    Post updatePostContent(UUID userId, UUID postId, String newContent);
 }

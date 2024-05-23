@@ -16,6 +16,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.UUID;
 
 @RestController
+@RequestMapping("/api/newsfeed/v1/user")
 public class UserController {
     private final UserServiceImpl userService;
 
@@ -31,7 +32,7 @@ public class UserController {
      * @param createUserRequest create user request containing first/last name, email and dob
      * @return created user
      */
-    @PostMapping("/api/newsfeed/v1/user")
+    @PostMapping()
     public ResponseEntity<User> createUser(@RequestBody CreateUserRequest createUserRequest) {
         LocalDateTime userCreatedAtDateTime = LocalDateTime.now();
         String userStringDob = createUserRequest.getDateOfBirth();
@@ -56,7 +57,7 @@ public class UserController {
      * @param userId - id of user to retrieve
      * @return - found user
      */
-    @GetMapping(path = "/api/newsfeed/v1/user/{userId}")
+    @GetMapping(path = "/{userId}")
     public ResponseEntity<User> getUserById(@PathVariable String userId) {
         User foundUser = this.userService.getUser(UUID.fromString(userId));
         return new ResponseEntity<>(foundUser, HttpStatus.OK);

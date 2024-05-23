@@ -46,4 +46,22 @@ public class PostServiceImpl implements PostService {
     public Post getPostsForUser(UUID userId) {
         return null;
     }
+
+    @Override
+    public void deleteUserPost(UUID userId, UUID postId) {
+        this.postRepository.deleteByPostUserIdAndId(userId, postId);
+    }
+
+    @Override
+    public Post updatePostContent(UUID userId, UUID postId, String newContent) {
+        Post existingPost = this.postRepository.findByPostUserIdAndId(userId, postId);
+        if (existingPost == null) {
+            throw new NoSuchElementException("Post ID not found for user");
+        }
+
+        // update new content and updated date
+        existingPost.setUpdatedDate(new Date());
+        existingPost.setContent(newContent);
+        return this.postRepository.save(existingPost);
+    }
 }
