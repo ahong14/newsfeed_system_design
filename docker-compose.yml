@@ -9,6 +9,14 @@ services:
       - POSTGRES_DB=newsfeed
     ports:
       - 5432:5432
+  postgresql_post_service:
+    image: postgres:16.2-bullseye
+    environment:
+      - POSTGRES_USER=post_service
+      - POSTGRES_PASSWORD=post_service
+      - POSTGRES_DB=posts
+    ports:
+      - 5433:5432
   redis:
     image: redis:7.2.4-bookworm
     ports:

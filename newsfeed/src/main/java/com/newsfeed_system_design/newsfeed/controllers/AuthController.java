@@ -1,6 +1,7 @@
 package com.newsfeed_system_design.newsfeed.controllers;
 
 import com.newsfeed_system_design.newsfeed.models.CreateUserRequest;
+import com.newsfeed_system_design.newsfeed.models.LoginResponse;
 import com.newsfeed_system_design.newsfeed.models.LoginUserRequest;
 import com.newsfeed_system_design.newsfeed.models.User;
 import com.newsfeed_system_design.newsfeed.services.AuthServiceImpl;
@@ -13,6 +14,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.time.LocalDate;
@@ -20,7 +22,8 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.UUID;
 
-@RestController
+@RestController()
+@RequestMapping("/api/newsfeed/v1/auth")
 public class AuthController {
     private final AuthServiceImpl authService;
 
@@ -34,7 +37,7 @@ public class AuthController {
         this.userService = userService;
     }
 
-    @PostMapping("/api/newsfeed/v1/auth/signup")
+    @PostMapping("/signup")
     public ResponseEntity<User> signupUser(@RequestBody CreateUserRequest createUserRequest) {
         LocalDateTime userCreatedAtDateTime = LocalDateTime.now();
         String userStringDob = createUserRequest.getDateOfBirth();
@@ -53,11 +56,12 @@ public class AuthController {
     }
 
 
-    @PostMapping("/api/newsfeed/v1/auth/login")
-    public ResponseEntity<String> loginUser(@RequestBody LoginUserRequest loginUserRequest) {
+    @PostMapping("/login")
+    public ResponseEntity<LoginResponse> loginUser(@RequestBody LoginUserRequest loginUserRequest) {
         String authToken = this.authService.loginUser(loginUserRequest.getEmail(), loginUserRequest.getPassword());
+        LoginResponse loginResponse = new LoginResponse(authToken, LoginResponse.TOKEN_EXPIRES_IN);
         HttpHeaders responseHeaders = new HttpHeaders();
         responseHeaders.set("Authorization", "Bearer " + authToken);
-        return new ResponseEntity<>("Login Successful", responseHeaders, HttpStatus.OK);
+        return new ResponseEntity<>(loginResponse, responseHeaders, HttpStatus.OK);
     }
 }

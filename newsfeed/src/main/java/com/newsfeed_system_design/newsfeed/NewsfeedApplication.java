@@ -11,12 +11,4 @@ public class NewsfeedApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(NewsfeedApplication.class, args);
 	}
-
-	// reference: https://www.baeldung.com/spring-security-registration-password-encoding-bcrypt
-	// https://stackoverflow.com/questions/55548290/using-bcrypt-in-spring
-	@Bean
-	public BCryptPasswordEncoder passwordEncoder() {
-		return new BCryptPasswordEncoder();
-	}
-
 }
