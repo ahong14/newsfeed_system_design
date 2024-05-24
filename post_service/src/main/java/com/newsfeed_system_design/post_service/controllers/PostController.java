@@ -1,5 +1,6 @@
 package com.newsfeed_system_design.post_service.controllers;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.newsfeed_system_design.post_service.models.CreatePostRequest;
 import com.newsfeed_system_design.post_service.models.PatchPostRequest;
 import com.newsfeed_system_design.post_service.models.Post;
@@ -20,7 +21,7 @@ public class PostController {
     }
 
     @PostMapping
-    public ResponseEntity<Post> createPost(@RequestBody CreatePostRequest createPostRequest) {
+    public ResponseEntity<Post> createPost(@RequestBody CreatePostRequest createPostRequest) throws JsonProcessingException {
         Post createdPost = this.postService.createPost(createPostRequest);
         return new ResponseEntity<>(createdPost, HttpStatus.CREATED);
     }

@@ -1,10 +1,12 @@
 package com.newsfeed_system_design.newsfeed.config;
 
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
@@ -27,15 +29,18 @@ public class SecurityConfig  {
         // setup security filter chain
 
         // disable CSRF
-        http.csrf(csrf -> {
-            csrf.disable();
-        });
+        http.csrf(AbstractHttpConfigurer::disable);
 
         // allow unauthenticated requests to /api/newsfeed/v1/auth/** URIs
         // everything else must be authenticated
         http.authorizeHttpRequests(auth -> {
             auth.requestMatchers("/api/newsfeed/v1/auth/**").permitAll();
             auth.anyRequest().authenticated();
+        });
+
+        // handle exceptions when unauthorized occurs
+        http.exceptionHandling(exceptionHandling -> {
+            exceptionHandling.authenticationEntryPoint((request, response, exception) -> response.sendError(HttpServletResponse.SC_UNAUTHORIZED));
         });
 
         // stateless request, every request treated as new

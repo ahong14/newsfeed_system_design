@@ -4,6 +4,7 @@ import com.newsfeed_system_design.newsfeed.models.User;
 import io.jsonwebtoken.Claims;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import javax.crypto.SecretKey;
 import java.util.Date;
 
 public interface JwtService {
@@ -13,7 +14,7 @@ public interface JwtService {
 
     Date extractExpiration(String token);
 
-    byte[] getSigningKey();
+    SecretKey getSigningKey();
 
     Claims extractAllClaims(String token);
 
