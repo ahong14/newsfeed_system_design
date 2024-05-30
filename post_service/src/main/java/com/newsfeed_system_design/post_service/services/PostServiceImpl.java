@@ -129,4 +129,10 @@ public class PostServiceImpl implements PostService {
         existingPost.setContent(newContent);
         return this.postRepository.save(existingPost);
     }
+
+    @Override
+    @Cacheable(key = "#postId")
+    public Post getPost(UUID postId) throws NoSuchElementException {
+        return this.postRepository.findById(postId).orElseThrow();
+    }
 }

@@ -19,4 +19,6 @@ public interface PostService {
     void deleteUserPost(UUID userId, UUID postId);
 
     Post updatePostContent(UUID userId, UUID postId, String newContent);
+
+    Post getPost(UUID postId);
 }
