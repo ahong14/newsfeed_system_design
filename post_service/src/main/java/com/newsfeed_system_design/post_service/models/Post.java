@@ -4,14 +4,16 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.Past;
 import jakarta.validation.constraints.Size;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.UUID;
 
 @Entity
 @Table(name = "posts")
-public class Post {
+// implements Serializable for redis to store bytes
+public class Post implements Serializable {
+    // set UUID on creation from service layer, not at DB level
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
     @Size(min = 2)
@@ -31,6 +33,13 @@ public class Post {
 
     public Post(UUID id, String content, UUID postUserId, Date createdDate, Date updatedDate) {
         this.id = id;
+        this.content = content;
+        this.postUserId = postUserId;
+        this.createdDate = createdDate;
+        this.updatedDate = updatedDate;
+    }
+
+    public Post(String content, UUID postUserId, Date createdDate, Date updatedDate) {
         this.content = content;
         this.postUserId = postUserId;
         this.createdDate = createdDate;

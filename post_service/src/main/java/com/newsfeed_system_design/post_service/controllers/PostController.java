@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -30,6 +31,12 @@ public class PostController {
     public ResponseEntity<Post> getPost(@PathVariable String userId, @PathVariable String postId) {
         Post foundPost = this.postService.getUserPost(UUID.fromString(userId), UUID.fromString(postId));
         return new ResponseEntity<>(foundPost, HttpStatus.OK);
+    }
+
+    @GetMapping(path = "/{userId}")
+    public ResponseEntity<List<Post>> getUserPosts(@PathVariable String userId) {
+        List<Post> userPosts = this.postService.getPostsForUser(UUID.fromString(userId));
+        return new ResponseEntity<>(userPosts, HttpStatus.OK);
     }
 
     @DeleteMapping(path = "/{userId}/{postId}")

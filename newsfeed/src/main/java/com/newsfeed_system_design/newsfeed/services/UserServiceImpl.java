@@ -13,8 +13,6 @@ import java.util.UUID;
 @Service
 public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
-
-    @Autowired
     private final BCryptPasswordEncoder passwordEncoder;
 
     @Autowired
